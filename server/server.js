@@ -49,6 +49,20 @@ app.get('/todos/:id', (req, res) => {
 	})
 });
 
+app.delete('/todos/:id', (req, res) => {
+	var id = req.params.id;
+
+	if (!ObjectID.isValid(id)) return res.status(404).send('404. Record not found.');
+
+	Todo.findByIdAndRemove(id).then((todo) => {
+		if (!todo) return res.status(404).send('404. Record not found.');
+
+		res.send({todo});
+	}, (e) => {
+		res.status(400).send('400. Bad request.');
+	});
+});
+
 
 app.listen(port, () => {
 	console.log(`Started on port ${port}`);
