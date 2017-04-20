@@ -3,16 +3,14 @@ require('./config/config');
 const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
+const {ObjectID} = require('mongodb');
 
-// const {mongoose} = require('./db/mongoose');
-// var {Todo} = require('./models/todo');
-// var {User} = require('./models/user');
-// const {ObjectID} = require('mongodb');
+var {mongoose} = require('./db/mongoose');
+var {Todo} = require('./models/todo');
+var {User} = require('./models/user');
+var {authenticate} = require('./middleware/authenticate');
 
-const mongoose = require('./db/mongoose').mongoose;
-var Todo = require('./models/todo').Todo;
-var User = require('./models/user').User;
-const ObjectID = require('mongodb').ObjectID;
+
 
 var app = express();
 const port = process.env.PORT;
@@ -95,12 +93,16 @@ app.post('/users', (req, res) => {
 	var user = new User(body);
 
 	user.save().then(() => {
-		user.generateAuthToken();
+		return user.generateAuthToken();
 	}).then((token) => {
 		res.header('x-auth', token).send(user);
 	}).catch((e) => {
 		res.status(400).send(e);
 	});
+});
+
+app.get('/users/me', authenticate, (req, res) => {
+	res.send(req.user);
 });
 
 app.listen(port, () => {
