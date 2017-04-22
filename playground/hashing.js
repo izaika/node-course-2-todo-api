@@ -11,9 +11,9 @@ var password = '123abc!';
 // });
 
 
-var hashedPassword = '$2a$10$htyWeoiJmEXsIElQCIG7vuk/J1Ul7XMxpD26DEvHZsJP0XNz/iy1e';
+var hashedPassword = '$2a$10$IHKHhPeDt5AmoI2MjmnSie9khxBSqiDHE.nHpX8Xx.0dng.UgOgWS';
 
-bcrypt.compare('123abc!', hashedPassword, (err, res) => {
+bcrypt.compare('123456', hashedPassword, (err, res) => {
 	console.log(res);
 });
 
