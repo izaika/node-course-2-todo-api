@@ -33,7 +33,7 @@ const users = [
 	{
 		_id: userTwoId,
 		email: 'igor@modulez.no',
-		password: 123456
+		password: '123456'
 	}
 ];
 
